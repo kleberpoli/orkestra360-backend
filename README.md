@@ -19,11 +19,7 @@ Modern backend systems require much more than CRUD operations. This project aims
 **Orkestra360** is designed as a **portfolio-grade project** that reflects real engineering challenges.
 
 
-## High-Level System Design
-
-The system is structured to evolve over time, starting as a well-designed monolith and progressively incorporating distributed system patterns such as messaging, caching, and observability.
-
-### Architecture Overview
+## Architecture Overview
 
 ```mermaid
 graph TD
@@ -81,7 +77,8 @@ end
 orkestra360/
 ├── docs/                       # Project documentation and technical specifications
 │   ├── assets/                 # Static media (screenshots and diagrams) for README/docs
-│   └── bruno/                  # Bruno client collections for APIs
+│   ├── bruno/                  # Bruno client collections for APIs
+│   └── BRD.md                  # Business Requirements Document (detailed project plan)
 ├── scripts/                    # Utility scripts (e.g., coverage report parsing)
 ├── src/
 │   ├── main/
@@ -105,60 +102,30 @@ orkestra360/
 
 ## Development Strategy (Phased Approach)
 
-The system is intentionally built in **incremental phases** to ensure focus, clarity, and quality.
+The system evolves incrementally through phases, prioritizing learning and quality. Core entities (Tenant, Task, User) are modeled, with business behaviors implemented in Phase 2 for rich domain logic. Services act as orchestrators, and layers are built step-by-step.
 
-### Phase 1 — Foundation (Current)
+### Phase 1 — Foundation (Completed)
+Established project structure, DDD layers, database setup, Docker, and basic scaffolding. Includes a sample Tenant controller/service flow for testing.
 
-* Project setup with Spring Boot
-* DDD-inspired layered architecture
-* Database integration (PostgreSQL + Flyway)
-* Dockerization
-* Basic API scaffolding
-* Initial test setup
-* Logging configuration
-* Basic error handling
-* RabbitMQ integration (initial setup, no business logic yet)
-* Initial API endpoint (health check)
-* GitHub repository setup
-* Initial documentation
-
-### Phase 2 — Domain Modeling & Core Features
-
-* Basic CRUD operations
-* Core entity modeling
-* Initial test coverage
-* Business logic implementation in the domain layer
-* API endpoints for core features
-* Input validation and error handling
+### Phase 2 — Domain Modeling & Core Features (In Progress)
+Implement rich domain behaviors, CRUD operations, API endpoints, validation, and tests. Focus on business rules in entities and orchestration in services.
 
 ### Phase 3 — Security: Authentication & Authorization
-
-* JWT authentication
-* RBAC (Role-Based Access Control)
-* Ownership validation
-* Rate limiting (initial version)
+Add JWT, RBAC, ownership checks, and rate limiting.
 
 ### Phase 4 — Messaging
-
-* Event-driven architecture
-* RabbitMQ integration
-* Asynchronous processing
+Integrate event-driven patterns with RabbitMQ for asynchronous workflows.
 
 ### Phase 5 — Observability
-
-* Metrics with Prometheus
-* Dashboards with Grafana
-* Structured logging
+Implement metrics with Prometheus and dashboards with Grafana.
 
 ### Phase 6 — Performance
-
-* Redis caching
-* Performance optimization
+Optimize with Redis caching and query improvements.
 
 ### Phase 7 — Advanced Security
+Enhance with ABAC and fine-grained policies.
 
-* ABAC (Attribute-Based Access Control)
-* Fine-grained authorization policies
+For detailed tasks, rules, and guardrails, see `docs/BRD.md`.
 
 
 ## Planned Features
@@ -169,6 +136,31 @@ The system is intentionally built in **incremental phases** to ensure focus, cla
 * Audit logging (event sourcing-inspired)
 * Multi-tenant support
 * Observability dashboards
+
+
+## API Design
+
+The backend exposes a RESTful API with tenant-aware resource scoping and standard HTTP semantics. The design is intentionally simple to keep the initial implementation clear, while supporting key SaaS concepts such as tenant isolation, validation, pagination, and consistent error handling.
+
+Core resources include tenants, tasks, workflows, notifications, audit logs, and observability metrics. API contract details and endpoint definitions are maintained in `docs/BRD.md`.
+
+### Design Principles
+- **Tenant Isolation**: Scoped resources by tenant to support SaaS data separation.
+- **Consistency**: Use standard HTTP verbs and JSON payloads.
+- **Resilience**: Validate inputs and return structured error responses.
+- **Observability**: Support metrics and health checks from day one.
+
+## Architectural Decisions
+
+**Orkestra360** is designed to reflect senior-level engineering decisions while preserving educational clarity.
+
+- **Domain-Driven Architecture**: Keep business rules in the domain layer and avoid mixing concerns across controller, service, and repository layers.
+- **Path-Based Tenant Scoping**: Use explicit tenant paths for resource isolation and easier request tracing.
+- **Event-Driven Roadmap**: Build event-capable blocks now, with messaging introduced in later phases to balance simplicity and future scalability.
+- **Stateless Services**: Favor horizontal scaling, with stateful concerns externalized later as needed.
+- **Observability-First**: Instrumentation is a project priority, even if the first version remains lightweight.
+
+For implementation details, refer to the BRD in `docs/BRD.md`.
 
 
 ## Future Frontend
@@ -182,7 +174,13 @@ A dedicated frontend application (React-based) will be developed separately to p
 
 ## Getting Started
 
-### Build application
+### Runs the application in development mode with hot reload
+
+```bash
+make dev
+```
+
+### Build application JAR (for production)
 
 ```bash
 make build

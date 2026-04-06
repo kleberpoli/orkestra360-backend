@@ -75,44 +75,87 @@ end
 * **GitHub Actions (planned CI/CD)**
 
 
+## Directory Structure
+
+```plaintext
+orkestra360/
+├── docs/                       # Project documentation and technical specifications
+│   ├── assets/                 # Static media (screenshots and diagrams) for README/docs
+│   └── bruno/                  # Bruno client collections for APIs
+├── scripts/                    # Utility scripts (e.g., coverage report parsing)
+├── src/
+│   ├── main/
+│   │   ├── java/com/project/orkestra360/
+│   │   │   ├── config/         # Infrastructure & Framework configurations
+│   │   │   ├── controller/     # Web Layer (REST Endpoints)
+│   │   │   ├── domain/         # Core Business Logic (Entities & Enums)
+│   │   │   ├── dto/            # Data Transfer Objects (Java Records)
+│   │   │   ├── exception/      # Custom Business & Infrastructure Exceptions
+│   │   │   ├── repository/     # Repository Interfaces (Output Ports)
+│   │   │   └── service/        # Application Logic (Orchestration)
+│   │   └── resources/          # Application resources (e.g., application.properties, Flyway migrations)
+│   └── test/                   # Unit and Integration test suites
+├── docker-compose.yml          # Docker orchestration and environment setup
+├── Dockerfile                  # Application container image definition
+├── Makefile                    # Automation shortcuts (build, test, up)
+├── pom.xml                     # Maven project configuration
+└── README.md                   # Project overview and documentation
+```
+
+
 ## Development Strategy (Phased Approach)
 
 The system is intentionally built in **incremental phases** to ensure focus, clarity, and quality.
 
 ### Phase 1 — Foundation (Current)
 
-* Project setup
-* DDD structure
-* Core entity modeling
-* Basic CRUD operations
+* Project setup with Spring Boot
+* DDD-inspired layered architecture
 * Database integration (PostgreSQL + Flyway)
-* Initial test coverage
+* Dockerization
+* Basic API scaffolding
+* Initial test setup
+* Logging configuration
+* Basic error handling
+* RabbitMQ integration (initial setup, no business logic yet)
+* Initial API endpoint (health check)
+* GitHub repository setup
+* Initial documentation
 
-### Phase 2 — Security
+### Phase 2 — Domain Modeling & Core Features
+
+* Basic CRUD operations
+* Core entity modeling
+* Initial test coverage
+* Business logic implementation in the domain layer
+* API endpoints for core features
+* Input validation and error handling
+
+### Phase 3 — Security: Authentication & Authorization
 
 * JWT authentication
 * RBAC (Role-Based Access Control)
 * Ownership validation
 * Rate limiting (initial version)
 
-### Phase 3 — Messaging
+### Phase 4 — Messaging
 
 * Event-driven architecture
 * RabbitMQ integration
 * Asynchronous processing
 
-### Phase 4 — Observability
+### Phase 5 — Observability
 
 * Metrics with Prometheus
 * Dashboards with Grafana
 * Structured logging
 
-### Phase 5 — Performance
+### Phase 6 — Performance
 
 * Redis caching
 * Performance optimization
 
-### Phase 6 — Advanced Security
+### Phase 7 — Advanced Security
 
 * ABAC (Attribute-Based Access Control)
 * Fine-grained authorization policies

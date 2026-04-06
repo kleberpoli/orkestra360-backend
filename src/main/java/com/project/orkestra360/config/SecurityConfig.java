@@ -13,8 +13,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for POST/PUT testing.
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); // Release everything for now
+            .csrf(csrf -> csrf.disable()) // Disable CSRF for POST/PUT testing
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/health/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .httpBasic(org.springframework.security.config.Customizer.withDefaults());
+        
         return http.build();
     }
 }

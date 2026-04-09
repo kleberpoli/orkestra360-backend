@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * Global Exception Handler to intercept and format all API errors.
  *
- * <p>Technical Note: This centralizes error logic, allowing Controllers to remain "thin".
+ * Technical Note: This centralizes error logic, allowing Controllers to remain "thin".
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

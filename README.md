@@ -92,26 +92,16 @@ orkestra360/
 
 ## Development Strategy (Phased Evolution)
 
-### Phase 1 — Foundation (Completed)
-Established the structural scaffolding, DDD layers, and multi-tenant aware base.
+| Phase | Description | Status |
+| :--- | :--- | :--- |
+| 1. Foundation | Established the structural scaffolding, DDD layers, and multi-tenant aware base. | Completed |
+| 2. Core Domain & Task Engine | Implementing rich behavior for Tasks and Workflows. Moving away from simple CRUD to state-machine driven logic within entities. | In Progress |
+| 3. Identity & Access (IAM) | Standardizing JWT-based Auth, RBAC, and cross-tenant leakage prevention. | Not Started |
+| 4. Resilience & Messaging | Implementing Transactional Outbox Pattern to ensure atomicity between DB state changes and RabbitMQ event publishing. | Not Started |
+| 5. Full-Stack Observability | Exposing Actuator metrics to Prometheus and building Grafana dashboards for throughput and error rates. | Not Started |
+| 6. Performance | Optimize with Redis caching and query improvements. | Not Started |
+| 7. Advanced Security | Enhance with ABAC and fine-grained policies. |
 
-### Phase 2 — Core Domain & Task Engine (In Progress)
-Implementing rich behavior for Tasks and Workflows. Moving away from simple CRUD to state-machine driven logic within entities.
-
-### Phase 3 — Identity & Access (IAM)
-Standardizing JWT-based Auth, RBAC, and cross-tenant leakage prevention.
-
-### Phase 4 — Resilience & Messaging
-Implementing Transactional Outbox Pattern to ensure atomicity between DB state changes and RabbitMQ event publishing.
-
-### Phase 5 — Full-Stack Observability
-Exposing Actuator metrics to Prometheus and building Grafana dashboards for throughput and error rates.
-
-### Phase 6 — Performance
-Optimize with Redis caching and query improvements.
-
-### Phase 7 — Advanced Security
-Enhance with ABAC and fine-grained policies.
 
 For detailed tasks, rules, and guardrails, see `docs/BRD.md`.
 
@@ -151,10 +141,3 @@ A dedicated frontend application (React-based) will be developed separately to p
 | `make up` | Start the full environment (app/DB/MQ) |
 | `make down` | Stop the full environment (app/DB/MQ) |
 | `make test` | Execute full test suite |
-
-
-## Current Status
-
-- **Current Project Status**: Phase 2 Midpoint
-- **Status**: In Progress (50% complete)
-- **Current Focus**: Transitioning from Domain/Persistence to API Exposure

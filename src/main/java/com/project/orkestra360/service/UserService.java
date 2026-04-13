@@ -135,4 +135,19 @@ public class UserService {
         user.updateContactInformation(name, validatedEmail.value(), validatedPhone.value());
         return userRepository.save(user);
     }
+
+    /**
+     * Soft-deletes a user within a tenant, preserving data for auditing purposes.
+     *
+     * @param tenantId the ID of the tenant to which the user belongs
+     * @param userId   the ID of the user to delete
+     * @throws ResourceNotFoundException if no user is found with the given tenant
+     *                                   ID and user ID
+     */
+    @Transactional
+    public void deleteUser(UUID tenantId, UUID userId) {
+        User user = getUserById(tenantId, userId);
+        user.delete();
+        userRepository.save(user);
+    }
 }

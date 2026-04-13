@@ -156,7 +156,7 @@ public class TaskService {
     /**
      * Updates the details of a task, enforcing tenant isolation and validating
      * input.
-     * 
+     *
      * @param tenantId    the ID of the tenant to which the task belongs
      * @param taskId      the ID of the task to update
      * @param title       the new title of the task
@@ -180,5 +180,24 @@ public class TaskService {
         Task saved = taskRepository.save(task);
         eventPublisher.publish(saved.pullDomainEvents());
         return saved;
+    }
+
+    /**
+     * Archives a task, transitioning it to a terminal, immutable state.
+     *
+     * <p>Archiving is the soft-delete equivalent for tasks: the record is
+     * retained for audit and history, but no further modifications are allowed.</p>
+     *
+     * @param tenantId the ID of the tenant to which the task belongs
+     * @param taskId   the ID of the task to archive
+     * @throws ResourceNotFoundException if no task is found for the given tenant and ID
+     * @throws BusinessException         if the task is already archived
+     */
+    @Transactional
+    public void archiveTask(UUID tenantId, UUID taskId) {
+        Task task = getTaskById(tenantId, taskId);
+        task.archive();
+        Task saved = taskRepository.save(task);
+        eventPublisher.publish(saved.pullDomainEvents());
     }
 }

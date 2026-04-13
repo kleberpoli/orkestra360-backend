@@ -81,7 +81,7 @@ public class TenantService {
 	/**
 	 * Updates an existing tenant's name and slug, ensuring slug uniqueness and
 	 * tenant isolation.
-	 * 
+	 *
 	 * @param id   the unique identifier of the tenant to update
 	 * @param name the new name for the tenant
 	 * @param slug the new unique slug for the tenant
@@ -106,5 +106,20 @@ public class TenantService {
 		// validation
 		tenant.rename(name, slug);
 		return tenantRepository.save(tenant);
+	}
+
+	/**
+	 * Deactivates an existing tenant, performing a soft delete that preserves
+	 * historical data while preventing further access.
+	 *
+	 * @param id the unique identifier of the tenant to deactivate
+	 * @throws ResourceNotFoundException if no tenant is found with the given ID
+	 * @throws BusinessException         if the tenant is already inactive
+	 */
+	@Transactional
+	public void deactivateTenant(UUID id) {
+		Tenant tenant = getTenantById(id);
+		tenant.deactivate();
+		tenantRepository.save(tenant);
 	}
 }
